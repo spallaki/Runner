@@ -18,6 +18,118 @@ import { FormLabel, FormInput } from 'react-native-elements'
 
 var site = 'https://stark-bastion-71532.herokuapp.com/'
 
+class DiscoverScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Users',
+    headerRight: <Button title='Messages' onPress={() => {navigation.state.params.onRightPress()}} />
+  });
+
+  constructor(props) {
+    super(props);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = { 
+      users: [],
+      dataSource: ds.cloneWithRows([]),
+    }
+      fetch(site + '/users', {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({dataSource: ds.cloneWithRows(responseJson.users)});
+        // this.setState({users})
+      })
+    }
+  
+  componentDidMount() {
+    AsyncStorage.getItem('user')
+    .then(result => {
+      var parsedResult = JSON.parse(result);
+      var username = parsedResult.username;
+      var password = parsedResult.password;
+      if (username && password) {
+        return login(username, password)
+          .then(resp => resp.json())
+          .then(checkResponseAndGoToMainScreen);
+      }
+    })
+    .catch((err) => { 
+      console.log('there was an error', err)
+    })
+    this.props.navigation.setParams({
+      onRightPress: this.getMessages.bind(this)
+    })
+  }
+    
+  getMessages() {
+    this.props.navigation.navigate('Messages')
+  }
+    
+  touchUser(user) {
+    fetch(site + 'profile/' + user._id ,{
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if (responseJson.success){
+      
+  }
+  
+  longTouchUser(user) {
+    fetch(site + '/messages' + user._id, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+     .catch((err) => {
+      console.log('there was an error finding messages with this user', err)
+      })
+}
+
+
+  // sendLocation = async(user) => {
+  //   let { status } = await Permissions.askAsync(Permissions.LOCATION);
+  //   if (status !== 'granted') {
+  //     Alert.alert(
+  //       'Cannot Send Location0',
+  //       `We do not have permission to access your location. If you would like to share your location, please go into your settins and give this app permission.`,
+  //       [{text: 'Dismiss Button'}]
+  //     )
+  //   }
+  //   let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+  //   this.longTouchUser(user, location)
+  //   Alert.alert(
+  //     'LocationShared',
+  //     `You shared your location`,
+  //     [{text: 'Dismiss'}]
+  //     )
+  // }
+
+  render() {
+    return (
+        <View style={styles.container}>
+        <ListView
+        dataSource={this.state.dataSource}
+        renderRow={(rowData) => <TouchableOpacity
+           onPress={this.touchUser.bind(this, rowData)}
+           onLongPress={this.sendLocation.bind(this, rowData)}
+          //  delayLongPress={}
+           >
+           <Text style={{fontSize: 20}}>{rowData.username}</Text></TouchableOpacity>}
+      />
+        </View>
+      );
+    }
+  }
+
+
 class ModalExample extends Component {
   
     state = {
