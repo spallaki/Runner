@@ -179,7 +179,7 @@ app.get('profile/:id', (req, res) => {
     })
 })
 
-app.get('/messages:userId, (req, res) => {
+app.get('/messages:userId', (req, res) => {
     User.findById(req.params.userId, function(err, user){
         if (err){
             console.log('there was an error', err)
@@ -187,7 +187,7 @@ app.get('/messages:userId, (req, res) => {
         }
         res.json({success: true, user: user})
     })
-}))
+})
 
 app.get('/logout', (req, res, next) => {
     req.logout();
