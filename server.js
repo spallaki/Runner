@@ -124,7 +124,7 @@ passport.serializeUser(function(user, done) {
   }));
 
 app.get('/login', (req, res) => {
-    res.render('login', { user : req.user, error });
+    res.json({success: true})
 });
 
 app.post('/login', passport.authenticate('local', {
@@ -133,7 +133,7 @@ app.post('/login', passport.authenticate('local', {
   }));
 
 router.get('/activity', (req, res) => {
-    res.json({success: true})
+    res.json({success: true, user: req.user})
 });
 
 router.post('/activity');
