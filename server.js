@@ -40,7 +40,7 @@ var cookieSession = require('cookie-session');
 app.use(cookieSession({
     keys: ['secret1', 'secret2']
 }));
-
+2
 // parse urlencoded request bodies into req.body
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
@@ -68,15 +68,15 @@ app.post('/register', (req, res, next) => {
     var error = validateReq(req.body);
     if (error) {
         console.log(error)
-    //   return res.render('signup', {
-    //     error: error
-    //   });
     }
 
     var user = new User ({
         username : req.body.username,
         password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName
     })
+
     user.save(function(err){
     if (err){
         console.log('there was an error', err)
@@ -132,17 +132,31 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login'
   }));
 
-router.get('/activity', (req, res) => {
+app.get('/activity', (req, res) => {
     res.json({success: true, user: req.user})
 });
 
-router.post('/activity');
+app.post('/activity', (req, res) => {
+    res.json({success: true})
+});
 
-router.get('/activity/:sport')
+app.get('/activity/:sport', (req, res) => {
+    res.json({success: true, currentSport: req.params.sport})
+})
 
-router.post('activity/:sport')
+app.post('activity/:sport')
 
-router.get('/logout', (req, res, next) => {
+app.get('/users', (req, res) => {
+    User.find({}, function(err, users){
+        if (err){
+            console.log('there was an error', err)
+            res.json({success: false})
+        }
+        res.json({success: true, users: users})
+    })
+})
+
+app.get('/logout', (req, res, next) => {
     req.logout();
     req.session.save((err) => {
         if (err) {
