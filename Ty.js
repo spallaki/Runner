@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   AsyncStorage,
   StyleSheet,
@@ -12,188 +12,72 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Location, Permissions, MapView } from 'expo';
+import ModalDropdown from 'react-native-modal-dropdown';
+import { Modal, Text, TouchableHighlight, View } from 'react-native';
+import { FormLabel, FormInput } from 'react-native-elements'
 
 var site = 'https://stark-bastion-71532.herokuapp.com/'
 
-class PickupScreen extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
-      title: 'PickUp'
-    //   headerRight: <Button title='Messages' onPress={() => {navigation.state.params.onRightPress()}} />
-    });
-
-    constructor(props) {
-      super(props);
-      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      this.state = { 
-        users: [],
-        dataSource: ds.cloneWithRows([]),
-        location: {
-          latitude: 0,
-          longitude: 0
-        }
-      }
-        fetch(site, {
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json"
-          },
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          this.setState({dataSource: ds.cloneWithRows(responseJson.users)});
-        })
-      }
-
-    onRegionChangeComplete(region){
-        for (var key in region){
-          AsyncStorage.setItem(key, JSON.stringify(region[key]))
-        }
-      }
-    
-    componentDidMount() {
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status !== 'granted') {
-        Alert.alert(
-          'Cannot Send Location',
-          `We do not have permission to access your location. If you would like to share your location, please go into your settins and give this app permission.`,
-          [{text: 'Dismiss Button'}]
-        )
-      }
-      let userLocation = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
-      this.setState({location.latitude: userLocation.latitude, location.longitude: userLocation.longitude})
-      Alert.alert(
-        'LocationShared',
-        `You shared your location`,
-        [{text: 'Dismiss'}]
-        )
-      }
-    //   this.setState({location.latitude: , location.longitude: })
-    //   // AsyncStorage.getItem('user')
-    //   // .then(result => {
-    //   //   var parsedResult = JSON.parse(result);
-    //   //   var username = parsedResult.username;
-    //   //   var password = parsedResult.password;
-    //   //   if (username && password) {
-    //   //     return login(username, password)
-    //   //       .then(resp => resp.json())
-    //   //       .then(checkResponseAndGoToMainScreen);
-    //   //   }
-    //   // })
-    //   // .catch((err) => { 
-    //   //   console.log('there was an error', err)
-    //   // })
-    //   // this.props.navigation.setParams({
-    //   //   onRightPress: this.getMessages.bind(this)
-    //   // })
-    // }
-      
-    // getMessages() {
-    //   this.props.navigation.navigate('Messages')
-    // }
-      
-    // longPressMap(location) {
-    //   fetch(site,{
-    //     method: 'POST',
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //         location: {
-    //             longitude: location.longitude,
-    //             latitude: location.latitude
-    //         }
-    //     })
-    //   })
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     if (responseJson.success){
-    //     Alert.alert(
-    //       'Location Set',
-    //       `Your location has been shared`,
-    //       [{text: 'Dismiss'}]
-    //     )
-    //     } else {
-    //     Alert.alert(
-    //       'Location not Set',
-    //       `Your location has not been set`,
-    //       [{text: 'Dismiss'}]
-    //       )
-    //     } 
-    //   })
-    // }
-    
-//     longTouchUser(user, location) {
-//       fetch('https://hohoho-backend.herokuapp.com/messages', {
-//         method: 'POST',
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({
-//           to: user._id,
-//           location: {
-//             longitude: location.longitude,
-//             latitude: location.latitude
-//           }
-//         })
-//       })
-//        .catch((err) => {
-//         console.log('there was an error sharing your location', err)
-//         })
-//   }
-
-
-    // sendLocation = async(user) => {
-    //   let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    //   if (status !== 'granted') {
-    //     Alert.alert(
-    //       'Cannot Send Location',
-    //       `We do not have permission to access your location. If you would like to share your location, please go into your settins and give this app permission.`,
-    //       [{text: 'Dismiss Button'}]
-    //     )
-    //   }
-    //   let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
-    //   // longPressMap(location)
-    //   Alert.alert(
-    //     'LocationShared',
-    //     `You shared your location`,
-    //     [{text: 'Dismiss'}]
-    //     )
-    // }
-    
-    youAreHere(){
-      navigator.geolocation.getCurrentPosition(
-        (success) => {
-          this.setState({
-            latitude: success.coords.latitude,
-            longitude: success.coords.longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.0025,
-          });
-        },
-        (error) => {
-        },
-        {}
-      )}
-
+class ModalExample extends Component {
+  
+    state = {
+      modalVisible: false,
+    }
+  
+    setModalVisible(visible) {
+      this.setState({modalVisible: visible});
+    }
+  
     render() {
       return (
-        <View style={styles.container}>
-        <TouchableOpacity
-          onPress={this.touchUser.bind(this, rowData)}
-          onLongPress={this.sendLocation.bind(this, rowData)}>
-        <MapView region={latitude: this.state.location.latitude,
-           longitude: this.state.location.latitude,
-          latitudeDelta: .025,
-          longitudeDelta: .025} style={{height: 200, margin: 40}} showsUserLocation={true} />
-        </TouchableOpacity>
-          <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(rowData) => }
-        />
-          </View>
-        );
-      }
+        <View style={{marginTop: 22}}>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {alert("Modal has been closed.")}}
+            >
+           <View style={{marginTop: 22}}>
+            <View>
+            <FormLabel>Name</FormLabel>
+            <FormInput ref={input => this.input = input}/>
+            <FormValidationMessage>Error message</FormValidationMessage>
+  
+              <TouchableHighlight onPress={() => {
+                this.setModalVisible(!this.state.modalVisible)
+              }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+  
+            </View>
+           </View>
+          </Modal>
+  
+          <TouchableHighlight onPress={() => {
+            this.setModalVisible(true)
+          }}>
+            <Text>Show Modal</Text>
+          </TouchableHighlight>
+  
+        </View>
+      );
     }
+  }
+
+modalNav(val){
+  if (val === 'Profile'){
+    this.props.navigation.navigate('Profile')
+  } else if (val === 'Workout'){
+    this.props.navigation.navigate('Workout')
+  } else if (val === 'Pickup'){
+    this.props.navigation.navigate('Pickup')
+  } else if (val === 'Logout'){
+    this.props.navigation.navigate('Logout')
+  }
+}
+
+<ModalDropdown options={['Profile', 'Workout', 'Pickup', 'Logout']} onSelect= {(val) => this.modalNav(val)}>
+</ModalDropdown>
 
     export default StackNavigator({
         Home: {

@@ -84,6 +84,7 @@ app.post('/register', (req, res, next) => {
         return;
       }
       console.log("Saved User: ", user);
+      res.json({success: true})
       res.redirect('/login');
     })
 })
@@ -132,7 +133,7 @@ app.post('/login', passport.authenticate('local', {
   }));
 
 router.get('/activity', (req, res) => {
-    res.render('activity')
+    res.json({success: true})
 });
 
 router.post('/activity');
