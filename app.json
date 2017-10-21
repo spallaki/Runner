@@ -4,6 +4,7 @@
     "description": "Like Yo but not",
     "slug": "hohoho",
     "privacy": "public",
+    "infoPlist": {"NSLocationWhenInUseUsageDescription": "We are using your location"},
     "sdkVersion": "18.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
