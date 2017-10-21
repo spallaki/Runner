@@ -18,7 +18,7 @@ class HomeScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Home Page'
-  }; 
+  };
 
   register() {
     this.props.navigation.navigate('Register');
@@ -120,12 +120,12 @@ class RegisterScreen extends React.Component {
 
       componentDidMount() {
         AsyncStorage.getItem('user')
-        .then(result => { 
+        .then(result => {
           var parsedResult = JSON.parse(result);
           var username = parsedResult.username;
           var password = parsedResult.password;
           if (username && password) {
-            return this.login(username, password) 
+            return this.login(username, password)
               .then(resp => resp.json())
               .then(() => {
                 self.props.navigation.navigate('Users');
@@ -133,22 +133,22 @@ class RegisterScreen extends React.Component {
             );
           }
         })
-        .catch((err) => { 
+        .catch((err) => {
           console.log('there was an error', err)
         })
       }
 
-      login(user, pass) {
+      login() {
         fetch('https://hohoho-backend.herokuapp.com/login', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          username: user,
-          password: pass,
+          username: this.state.username,
+          password: this.state.password,
         })
-      }) 
+      })
       .then((response) => response.json())
       .then((responseJson) => {
         if(responseJson.success === true){
@@ -164,12 +164,12 @@ class RegisterScreen extends React.Component {
             }));
             this.props.navigation.navigate('Users');
           })
-         
+
         }
       })
       .catch((err) => {
         console.log('there was an error', err)
-      }); 
+      });
     }
       render() {
         return (
@@ -185,7 +185,7 @@ class RegisterScreen extends React.Component {
           placeholder="Password"
           onChangeText={(text) => this.setState({password: text})}
           />
-          <TouchableOpacity style={[styles.button, styles.buttonBlue]} onPress={ () => {this.login(this.state.username, this.state.password)} }>
+          <TouchableOpacity style={[styles.button, styles.buttonBlue]} onPress={ () => {this.login()} }>
             <Text style={styles.buttonLabel}>Login</Text>
           </TouchableOpacity>
         </View>
@@ -195,14 +195,14 @@ class RegisterScreen extends React.Component {
 
   class UserScreen extends React.Component {
     static navigationOptions = ({ navigation }) => ({
-      title: 'Users',
+      title: 'Users', 
       headerRight: <Button title='Messages' onPress={() => {navigation.state.params.onRightPress()}} />
     });
 
     constructor(props) {
       super(props);
       const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      this.state = { 
+      this.state = {
         users: [],
         dataSource: ds.cloneWithRows([]),
         location: {
@@ -221,7 +221,7 @@ class RegisterScreen extends React.Component {
           this.setState({dataSource: ds.cloneWithRows(responseJson.users)});
         })
       }
-    
+
     componentDidMount() {
       AsyncStorage.getItem('user')
       .then(result => {
@@ -234,18 +234,18 @@ class RegisterScreen extends React.Component {
             .then(checkResponseAndGoToMainScreen);
         }
       })
-      .catch((err) => { 
+      .catch((err) => {
         console.log('there was an error', err)
       })
       this.props.navigation.setParams({
         onRightPress: this.getMessages.bind(this)
       })
     }
-      
+
     getMessages() {
       this.props.navigation.navigate('Messages')
     }
-      
+
     touchUser(user) {
       fetch('https://hohoho-backend.herokuapp.com/messages',{
         method: 'POST',
@@ -270,10 +270,10 @@ class RegisterScreen extends React.Component {
           `Your Ho Ho Ho! to ${user.username} has not been sent!`,
           [{text: 'Dismiss Button'}]
           )
-        } 
+        }
       })
     }
-    
+
     longTouchUser(user, location) {
       fetch('https://hohoho-backend.herokuapp.com/messages', {
         method: 'POST',
@@ -408,7 +408,7 @@ export default StackNavigator({
   Messages: {
     screen: MessagesScreen
   }
-  
+
 }, {initialRouteName: 'Home'});
 
 

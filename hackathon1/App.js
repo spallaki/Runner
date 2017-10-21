@@ -7,6 +7,8 @@ import MapView from 'react-native-maps';
 import { athletes } from './athletes.js';
 // import Modal from './Modal.js';
 
+var site = 'https://stark-bastion-71532.herokuapp.com/'
+
 const PAGE_WIDTH = Dimensions.get('window').width;
 const PAGES = [
   {
@@ -237,9 +239,11 @@ class LoginScreen extends React.Component {
       console.log(err);
     });
   }
+
   register() {
     this.props.navigation.navigate('Register');
   }
+
   render() {
     return (
       <View style={styles.container1}>
@@ -294,7 +298,7 @@ class chooseActivity extends React.Component {
         <View>
         <TouchableOpacity style={{paddingTop: 40, paddingBottom: 20}} onPress={() => {this.workoutPress()}}>
           <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./workout.png')}
+            source={require ('./images/workout.png')}
           />
           <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>working out</Text>
           {workoutTile.map(i => Item({...tileDimensions, text: i}))}
@@ -303,7 +307,7 @@ class chooseActivity extends React.Component {
       <View>
         <TouchableOpacity onPress={() => {this.sportsPress()}} style={{display: 'flex'}}>
           <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./sports.png')}
+            source={require ('./images/sports.png')}
           />
           <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>a pick-up game</Text>
           {sportsTile.map(i => Item({...tileDimensions, text: i}))}
@@ -350,7 +354,7 @@ this.props.navigation.navigate('runMap')
         <View>
         <TouchableOpacity onPress={() => {this.run()}} style={{paddingTop: 40, paddingBottom: 20}}>
           <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./run1.png')}
+            source={require ('./images/run1.png')}
           />
           <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>run</Text>
           {run.map(i => Item({...tileDimensions, text: i}))}
@@ -359,7 +363,7 @@ this.props.navigation.navigate('runMap')
       <View>
         <TouchableOpacity style={{display: 'flex', paddingTop: 10, paddingBottom: 20}}>
           <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./hit1.png')}
+            source={require ('./images/hit1.png')}
           />
           <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>keep it high-intensity</Text>
           {hit.map(i => Item({...tileDimensions, text: i}))}
@@ -368,7 +372,7 @@ this.props.navigation.navigate('runMap')
       <View>
       <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 10, paddingBottom: 20}}>
         <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-          source={require ('./gym1.png')}
+          source={require ('./images/gym1.png')}
         />
         <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>go to the gym</Text>
         {gym.map(i => Item({...tileDimensions, text: i}))}
@@ -377,7 +381,7 @@ this.props.navigation.navigate('runMap')
     <View>
     <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 10, paddingBottom: 20}}>
       <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-        source={require ('./yoga1.png')}
+        source={require ('./images/yoga1.png')}
       />
       <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>yoga</Text>
       {yoga.map(i => Item({...tileDimensions, text: i}))}
@@ -405,28 +409,28 @@ class sportsScreen extends React.Component {
         <Text style={{fontSize: 30, fontWeight: 'bold', textAlign: 'center', color: 'white'}}>Today I feel like playing... </Text>
         <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 40, paddingBottom: 20}}>
           <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./basketball1.png')}
+            source={require ('./images/basketball1.png')}
           />
           <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>basketball</Text>
           {basketball.map(i => Item({...tileDimensions, text: i}))}
         </TouchableOpacity>
         <TouchableOpacity style={{ paddingTop: 15, paddingBottom: 20 }}>
           <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./football1.png')}
+            source={require ('./images/football1.png')}
           />
           <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>football</Text>
           {football.map(i => Item({...tileDimensions, text: i}))}
         </TouchableOpacity>
         <TouchableOpacity style={{ paddingTop: 15, paddingBottom: 20 }}>
           <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./soccer1.png')}
+            source={require ('./images/soccer1.png')}
           />
           <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>soccer</Text>
           {soccer.map(i => Item({...tileDimensions, text: i}))}
         </TouchableOpacity>
         <TouchableOpacity style={{ paddingTop: 15, paddingBottom: 20 }}>
           <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./tennis1.png')}
+            source={require ('./images/tennis1.png')}
           />
           <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>tennis</Text>
           {tennis.map(i => Item({...tileDimensions, text: i}))}
@@ -439,10 +443,10 @@ class sportsScreen extends React.Component {
 
 
 class App extends React.Component {
-  static navigationOptions = {
-    title: 'runMap',
-    header: null
-  }
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Run Map',
+    headerRight: <Button title='Users' onPress={() => {navigation.state.params.onRightPress()}} />
+  })
 
   constructor(props) {
     super(props)
@@ -457,7 +461,14 @@ class App extends React.Component {
   this.handlePress=this.handlePress.bind(this);
 }
 
+getMessages() {
+  this.props.navigation.navigate('Users')
+}
+
 componentDidMount(){
+  this.props.navigation.setParams({
+    onRightPress: this.getMessages.bind(this)
+  })
 }
 
 getModal(){
@@ -471,11 +482,12 @@ getModal(){
   //console.log(Object.values(e.nativeEvent.coordinate))
   var sliceMarkers = this.state.markers.slice()
   sliceMarkers.push({
-      name: 'Ana',
-      image: 'https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-1/c0.5.240.240/p240x240/19894973_1933258040254671_5217704686724232034_n.jpg?oh=ae8ec2628a9fe0a1480721ecba6ced4e&oe=5A76458C',
+      name: 'Pujitha',
+      // image: 'https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-9/21317705_1458249047562200_5036214036861933050_n.jpg?oh=6ba55479132c6e2cd6ace76fdb37b798&oe=5A7B25C1',
       coordinate: Object.values(e.nativeEvent.coordinate),
       sport: 'running',
-      pace: 5,
+      pace: 8,
+      image: 'https://scontent-sjc2-1.xx.fbcdn.net/v/t31.0-8/21414894_1458249047562200_5036214036861933050_o.jpg?oh=2f5c495444364c8259de38e61a38f6fb&oe=5AB00CFB',
       distance: 4,
       start: sliderTime,
       show: true,
@@ -625,6 +637,121 @@ getModal(){
       }
     }
 
+    class DiscoverScreen extends React.Component {
+          static navigationOptions = ({ navigation }) => ({
+            title: 'Users',
+            headerRight: <Button title='Messages' onPress={() => {navigation.state.params.onRightPress()}} />
+          });
+
+          constructor(props) {
+            super(props);
+            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+            this.state = {
+              users: [],
+              dataSource: ds.cloneWithRows([]),
+            }
+              fetch(site + '/users', {
+                method: 'GET',
+                headers: {
+                  "Content-Type": "application/json"
+                },
+              })
+              .then((response) => response.json())
+              .then((responseJson) => {
+                this.setState({dataSource: ds.cloneWithRows(athletes)});
+                // this.setState({users})
+              })
+            }
+
+          componentDidMount() {
+            this.setState({dataSource: ds.cloneWithRows(athletes)});
+            console.log(this.state.dataSource)
+            AsyncStorage.getItem('user')
+            .then(result => {
+              var parsedResult = JSON.parse(result);
+              var username = parsedResult.username;
+              var password = parsedResult.password;
+              if (username && password) {
+                return login(username, password)
+                  .then(resp => resp.json())
+                  .then(checkResponseAndGoToMainScreen);
+              }
+            })
+            .catch((err) => {
+              console.log('there was an error', err)
+            })
+            this.props.navigation.setParams({
+              onRightPress: this.getMessages.bind(this)
+            })
+          }
+
+          getMessages() {
+            this.props.navigation.navigate('Messages')
+          }
+
+          touchUser(user) {
+            fetch(site + 'profile/' + user._id ,{
+              method: 'GET',
+              headers: {
+                "Content-Type": "application/json"
+              },
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+              if (responseJson.success){
+
+          }
+        })
+      }
+
+          longTouchUser(user) {
+            fetch(site + '/messages' + user._id, {
+              method: 'GET',
+              headers: {
+                "Content-Type": "application/json"
+              },
+            })
+             .catch((err) => {
+              console.log('there was an error finding messages with this user', err)
+              })
+        }
+
+
+          // sendLocation = async(user) => {
+          //   let { status } = await Permissions.askAsync(Permissions.LOCATION);
+          //   if (status !== 'granted') {
+          //     Alert.alert(
+          //       'Cannot Send Location0',
+          //       `We do not have permission to access your location. If you would like to share your location, please go into your settins and give this app permission.`,
+          //       [{text: 'Dismiss Button'}]
+          //     )
+          //   }
+          //   let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+          //   this.longTouchUser(user, location)
+          //   Alert.alert(
+          //     'LocationShared',
+          //     `You shared your location`,
+          //     [{text: 'Dismiss'}]
+          //     )
+          // }
+
+          render() {
+            return (
+                <View style={styles.container}>
+                <ListView
+                dataSource={this.state.dataSource}
+                renderRow={(rowData) => <TouchableOpacity
+                   onPress={this.touchUser.bind(this, rowData)}
+                   onLongPress={this.sendLocation.bind(this, rowData)}
+                  //  delayLongPress={}
+                   >
+                   <Text style={{fontSize: 20}}>{rowData.username}</Text></TouchableOpacity>}
+              />
+                </View>
+              );
+            }
+          }
+
     export default StackNavigator({
       chooseActivity: {
         screen: chooseActivity,
@@ -646,6 +773,9 @@ getModal(){
       },
       runMap: {
         screen: App,
+      },
+      Users: {
+        screen: DiscoverScreen
       }
     },
     {initialRouteName: 'Home'},

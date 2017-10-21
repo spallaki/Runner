@@ -321,23 +321,23 @@ export const athletes = [
     show: true,
   },
   {
-    name: 'Pujitha',
-    image:'https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-9/21317705_1458249047562200_5036214036861933050_n.jpg?oh=6ba55479132c6e2cd6ace76fdb37b798&oe=5A7B25C1',
+    name: 'Ana',
+    image: 'https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-1/c0.5.240.240/p240x240/19894973_1933258040254671_5217704686724232034_n.jpg?oh=ae8ec2628a9fe0a1480721ecba6ced4e&oe=5A76458C',
     coordinate: [ 37.77171, -122.40950 ],
     sport: 'running',
     pace: 8,
     distance: 8,
-    start: 19,
+    start: 10,
     show: true,
 },
   {
     name: 'Smitha',
-    image:'https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-9/12308726_1075132909164918_4703114080346927539_n.jpg?oh=99466e88da678ab7be6b4d84baf31be0&oe=5A85DCE4',
+    image: 'https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-9/12308726_1075132909164918_4703114080346927539_n.jpg?oh=99466e88da678ab7be6b4d84baf31be0&oe=5A85DCE4',
     coordinate: [ 37.7709, -122.40952 ],
     sport: 'running',
     pace: 8,
     distance: 8,
-    start: 19,
+    start: 10,
     show: true,
   }
 ];
