@@ -61,7 +61,7 @@ var validateReq = function(userData) {
   };
 
 app.get('/register', (req, res) => {
-    res.render('register', { });
+    res.json({success: true})
 })
 
 app.post('/register', (req, res, next) => {
@@ -144,7 +144,10 @@ app.get('/activity/:sport', (req, res) => {
     res.json({success: true, currentSport: req.params.sport})
 })
 
-app.post('activity/:sport')
+app.post('activity/:sport', (req, res) => {
+    res.json({success: true}
+    )
+})
 
 app.get('/users', (req, res) => {
     User.find({}, function(err, users){
@@ -156,12 +159,43 @@ app.get('/users', (req, res) => {
     })
 })
 
+app.get('profile', (req, res) => {
+    User.findById(req.user.id, function(err, user){
+        if (err){
+            console.log('there was an error', err)
+            res.json({success: false})
+        }
+        res.json({success: true, user: user})
+    })
+})
+
+app.get('profile/:id', (req, res) => {
+    User.findById(req.params.id, function(err, user){
+        if (err){
+            console.log('there was an error', err)
+            res.json({success: false})
+        }
+        res.json({success: true, user: user})
+    })
+})
+
+app.get('/messages:userId, (req, res) => {
+    User.findById(req.params.userId, function(err, user){
+        if (err){
+            console.log('there was an error', err)
+            res.json({success: false})
+        }
+        res.json({success: true, user: user})
+    })
+}))
+
 app.get('/logout', (req, res, next) => {
     req.logout();
     req.session.save((err) => {
         if (err) {
             return next(err);
         }
+        res.json({success: true})
         res.redirect('/login');
     });
 });
