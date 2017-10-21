@@ -691,6 +691,8 @@ getModal(){
           if (responseJson.success){
           
       }
+    })
+  }
       
       longTouchUser(user) {
         fetch(site + '/messages' + user._id, {
