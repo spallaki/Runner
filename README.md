@@ -4,4 +4,4 @@ This mobile application was built using React Native and enables users to find p
 in their area using Google Maps. Users can filter based on other users' training levels, their locations, and activity of
 choice.
 
-![Main SS](screenshots/Main.png "Home Screen View 1")
+![Main SS](screenshots/Main.png "Home Screen View 1"){:height="50%" width="50%"}
